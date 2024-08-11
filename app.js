@@ -60,6 +60,26 @@ app.post("/addpeople",(req,res)=>{
         }
     )
 })
+app.post("/viewall",(req,res)=>{
+    let token=req.headers.token
+    jwt.verify(token,"rescue-app",
+        (error,decoded)=>{
+            if (decoded && decoded.email) {
+                PeopleModel.find().then(
+                    (items)=>{
+                        res.json(items)
+                    }
+                ).catch(
+                    (error)=>{
+                        res.json({"status":"error",error})
+                    }
+                )
+            } else {
+                res.json({"status":"invalid authentication"})
+            }
+        }
+    )
+})
 
 app.listen(5050, () => {
     console.log("server started")
