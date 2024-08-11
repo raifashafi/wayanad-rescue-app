@@ -18,6 +18,19 @@ app.post("/adminSignup",(req,res)=>{
     res.json({"status":"success"})
     
 })
+// app.post("/adminSignin",(req,res)=>{
+//     let input=req.body
+//     let result=loginModel.find({username:input.username}).then(
+//         (response)=>{
+//             if (response.length>0) {
+//                 const validator=bcrypt.compareSync(input)
+                
+//             } else {
+                
+//             }
+//         }
+//     )
+// })
 app.listen(3030,()=>{
     console.log("server started")
 })
