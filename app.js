@@ -4,6 +4,7 @@ const express = require("express")
 const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken")
 const loginModel = require("./models/admin")
+const PeopleModel = require("./models/people")
 const app = express()
 app.use(cors())
 app.use(express.json())
@@ -44,7 +45,21 @@ app.post("/SignIn",(req,res)=>{
         }
     ).catch()
 })
-
+app.post("/addpeople",(req,res)=>{
+    let input=req.body
+    let token=req.headers.token
+    jwt.verify(token,"rescue-app",
+        (error,decoded)=>{
+            if (decoded && decoded.email) {
+                let result= new PeopleModel(input)
+                result.save()
+                res.json({"status":"registered successsfully"})
+            } else {
+                res.json({"status":"registeratio failed"})
+            }
+        }
+    )
+})
 
 app.listen(5050, () => {
     console.log("server started")
